@@ -1,0 +1,15 @@
+use innodb;
+#create table temp_a as SELECT p.personid, p.firstname, p.lastname, p.username, p.email, w.website_id, w.wname, w.visits, w.wupdate , w.developerwebid from person p join website w on developer_person_generalization = developerwebid;
+#create table temp_b as SELECT t.*, wr.webrole from temp_a t join website_role wr on website_id = wrwebsiteid  and developerwebid=developerwid;
+create table temp_a as SELECT p.personid, p.firstname, p.lastname, p.username, p.email,p.developer_person_generalization as developerid1, wrwebsiteid, wr.webrole from person p join website_role wr on developer_person_generalization = developerwid;
+create table temp_b as SELECT t.*, w.wname, w.visits, w.wupdate from temp_a t join website w on website_id = wrwebsiteid;
+drop table temp_a;
+create table temp_c as SELECT t.*, wp.webpriviledge from temp_b t join website_priviledge wp on wrwebsiteid = wpwebsiteid and developerid1 = developerid;
+drop table temp_b;
+create table temp_d as SELECT t.*, p.page_id as pid_use, p.title, p.views, p.updated from temp_c t left join page p on wrwebsiteid = websitepid;
+drop table temp_c;
+create table temp_e as SELECT t.*, p.role_id from temp_d t left join page_role p on  developerid1 = developer_id and pid_use = page_id;
+drop table temp_d;
+create table implement_view as SELECT t.*, p.pagepriviledgeid from temp_e t left join page_priviledge p on developerid1 = ppdeveloperid and pid_use = pppageid;
+drop table temp_e;
+select * from implement_view;

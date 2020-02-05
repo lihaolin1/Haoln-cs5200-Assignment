@@ -1,0 +1,6 @@
+Host: cs5200-spring2020-haolin-a2
+Username: haolin
+Password: cs5200haolin
+Schema: 
+Endpoint: cs5200-spring2020-haolin-a2.ccgpqnp6qpps.us-east-2.rds.amazonaws.com
+Port: 3306
